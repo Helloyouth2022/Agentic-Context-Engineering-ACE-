@@ -37,6 +37,11 @@ def initialize_clients(api_provider):
         api_key = os.getenv('COMMONSTACK_API_KEY', '')
         if not api_key:
             raise ValueError("Commonstack api key not found in environment variables")
+    elif api_provider == "dashscope":
+        api_key=os.getenv("DASHSCOPE_API_KEY", '')
+        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"
+        if not api_key:
+            raise ValueError("Dashscope api key not found in environment variables")
     else:
         raise ValueError(
             f"Invalid api_provider name: {api_provider}. Must be 'sambanova', 'together', 'openai', or 'commonstack'"
@@ -286,7 +291,7 @@ def evaluate_test_set(data_processor, generator, playbook, test_samples,
         
         print(f"\n📊 Final Accuracy: {accuracy:.3f} ({results['correct']}/{results['total']})")
     else:
-        results = {"accuracy": 0.0, "correct": 0, "total": 0}
+        final_results = {"accuracy": 0.0, "correct": 0, "total": 0}
         error_logs = {}
         print(f"\n📊 No valid results!")
         
